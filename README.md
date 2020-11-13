@@ -2,7 +2,9 @@
 
 
 
-##Documentação do projeto 
+##Documentação do projeto
+
+ 
 ####Estrutura do projeto 
 MVC com Clean Architeture dividido entre os pacotes Controller, Mapper, Model, Service e VO
 Banco de dados PostgreSQL
@@ -93,6 +95,7 @@ Endpoint que lista todas as raças
 
 ### Documentação de como podemos subir uma cópia deste ambiente localmente
 ##### Estando dentro da pasta do projeto rodar os seguintes comandos
+- Utilizando qualquer terminal de sua escolha 
 - ./gradlew assemble
 - docker-compose up --build
 
