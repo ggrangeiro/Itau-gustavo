@@ -4,6 +4,7 @@ import com.cats.itau.mapper.BreedMapper;
 import com.cats.itau.model.Breed;
 import com.cats.itau.model.BreedApi;
 import com.cats.itau.service.repository.BreedRepository;
+import com.cats.itau.vo.BreedDetailVO;
 import com.cats.itau.vo.BreedVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,42 +25,42 @@ public class BreedServiceImpl implements BreedService {
 
     @Override
     public List<BreedVO> getAllBreeds() {
-        return breedRepository.findAll().stream().map(BreedMapper::mapBreedToBreedDTO).collect(Collectors.toList());
+        return breedRepository.findAll().stream().map(BreedMapper::mapBreedToBreedListVO).collect(Collectors.toList());
     }
 
     @Override
-    public Breed getBreedById(Long breedId) {
+    public BreedDetailVO getBreedById(Long breedId) {
         Optional<Breed> a = breedRepository.findById(breedId);
         try {
-            return a.get();
+            return BreedMapper.mapBreedToBreedVO(a.get());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new Breed();
+        return new BreedDetailVO();
     }
 
     @Override
     public List<BreedVO> getBreedsByOrigin(String origin) {
         return breedRepository.findAll().stream().filter(breed -> {
             return breed.getOrigin().equals(origin);
-        }).map(BreedMapper::mapBreedToBreedDTO).collect(Collectors.toList());
+        }).map(BreedMapper::mapBreedToBreedListVO).collect(Collectors.toList());
     }
 
     @Override
     public List<BreedVO> getBreedsByTemperament(String temperament) {
         return breedRepository.findAll().stream().filter(breed -> {
             return breed.getTemperament().contains(temperament);
-        }).map(BreedMapper::mapBreedToBreedDTO).collect(Collectors.toList());
+        }).map(BreedMapper::mapBreedToBreedListVO).collect(Collectors.toList());
     }
 
     @Override
-    public Breed saveBreed(Breed breed) {
+    public BreedDetailVO saveBreed(Breed breed) {
         Breed savedBreed = breedRepository.save(breed);
-        return breed;
+        return BreedMapper.mapBreedToBreedVO(savedBreed);
     }
 
     @Override
-    public Breed populateBreeds() {
+    public BreedDetailVO populateBreeds() {
         WebClient client3 = WebClient
                 .builder()
                 .baseUrl("https://api.thecatapi.com/v1")
@@ -70,7 +71,7 @@ public class BreedServiceImpl implements BreedService {
                 .retrieve()
                 .bodyToFlux(BreedApi.class);
 
-        Stream<Breed> breedStream = Objects.requireNonNull(response.collectList().block()).stream().map(breedApi -> {
+        Stream<BreedDetailVO> breedStream = Objects.requireNonNull(response.collectList().block()).stream().map(breedApi -> {
             return saveBreed(BreedMapper.mapBreedApiToBreed(breedApi));
         });
 

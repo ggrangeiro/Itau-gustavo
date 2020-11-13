@@ -2,6 +2,7 @@ package com.cats.itau.controller;
 
 import com.cats.itau.model.Breed;
 import com.cats.itau.service.BreedService;
+import com.cats.itau.vo.BreedDetailVO;
 import com.cats.itau.vo.BreedVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +26,10 @@ public class BreedController {
     }
 
     @GetMapping(path = "/breed/{breedId}")
-    public ResponseEntity<Breed> getBreedById(@PathVariable("breedId") Long breedId) {
-        Breed breed = breedService.getBreedById(breedId);
+    public ResponseEntity<BreedDetailVO> getBreedById(@PathVariable("breedId") Long breedId) {
+        BreedDetailVO breed = breedService.getBreedById(breedId);
 
-        if (breed.getId() == null) {
+        if (breed.id == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(breed);
@@ -53,12 +54,12 @@ public class BreedController {
     }
 
     @GetMapping(path = "load")
-    public ResponseEntity<Breed> populateBreeds() {
+    public ResponseEntity<BreedDetailVO> populateBreeds() {
         return ResponseEntity.ok(breedService.populateBreeds());
     }
 
     @PostMapping("/breed")
-    Breed save(@RequestBody Breed breed) {
+    BreedDetailVO save(@RequestBody Breed breed) {
         return breedService.saveBreed(breed);
     }
 }

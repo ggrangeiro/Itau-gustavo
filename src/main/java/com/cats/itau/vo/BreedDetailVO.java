@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class BreedVO {
+public class BreedDetailVO {
     public Long id;
     public String name;
+    public String origin;
+    public String temperament;
 }

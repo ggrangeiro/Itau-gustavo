@@ -1,20 +1,21 @@
 package com.cats.itau.service;
 
-import com.cats.itau.vo.BreedVO;
+import com.cats.itau.vo.BreedDetailVO;
 import com.cats.itau.model.Breed;
+import com.cats.itau.vo.BreedVO;
 
 import java.util.List;
 
 public interface BreedService {
     List<BreedVO> getAllBreeds();
 
-    Breed getBreedById(Long breedId);
+    BreedDetailVO getBreedById(Long breedId);
 
     List<BreedVO> getBreedsByOrigin(String origin);
 
     List<BreedVO> getBreedsByTemperament(String temperament);
 
-    Breed saveBreed(Breed breed);
+    BreedDetailVO saveBreed(Breed breed);
 
-    Breed populateBreeds();
+    BreedDetailVO populateBreeds();
 }
